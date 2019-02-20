@@ -1,0 +1,91 @@
+像素问题 
+设计师设计时候以 iPhone6 下 750 px  宽度做效果图
+然后 开发时候
+ 如果 一个图片在效果图上 尺寸是200px  那么 小程序里面直接写 200rpx 
+
+ 适配高度的话 
+ page{
+     height:100%;
+ }
+
+ iPhone6 下 是两个px构成一个pt 
+  iPhone6 下  1px = 1rpx = 0.5pt 
+使用 rpx  小程序会自动在不同的分辨率下进行转换 ，而使用px不会
+
+
+
+apache  并发 同一个点  2000-3000  顶峰3000 很稳定 
+nginx  并发 同一个点 3万到5万  顶峰5万  在线人数可以达到5万  但是稍微不稳定
+
+
+transform: translate(-50%, -50%) 实现块元素百分比下居中
+
+
+<image mode="widthFix"></image>
+aspectFill 保持纵横比缩放图片，只保证图片的短边能完全显示出来。也就是说，图片通常只在水平或垂直方向是完整的，另一个方向将会发生截取。
+
+Widthfix 宽度不变，高度自动变化，保持原图宽高比不变。
+
+
+transition: property duration timing-function delay;
+transition-property	规定设置过渡效果的 CSS 属性的名称。
+
+
+bindtap和catchtap
+bindtap和catchtap都是当用户点击该组件的时候会在该页面对应的Page中找到相应的事件处理函数。
+但是bind事件绑定不会阻止冒泡事件向上冒泡，catch事件绑定可以阻止冒泡事件向上冒泡
+
+
+wx.reportAnalytics 自定义数据上报 ， 这里面是 获取到这些字段的值 ， 然后传递过去，
+自定义分析数据上报接口。使用前，需要在小程序管理后台自定义分析中新建事件，配置好事件名与字段。
+开发者工具上可以编辑和调试自定义分析的数据上报功能，点击菜单栏中的 “工具 - 自定义分析” 即可弹窗打开自定义分析，
+事件名  取名为 invite_by_moments
+{}里面是字段 
+ wx.reportAnalytics('invite_by_moments', {
+      inviter_name: wx.getStorageSync('userName'),
+      inviter_office: wx.getStorageSync('userOffice'),
+      inviter_phone:  wx.getStorageSync('userPhone'),
+      inviter_unionid: wx.getStorageSync('unionId'),
+      inviter_userid: wx.getStorageSync('userId')
+    });
+
+
+wx.getSetting(Object)
+Object 参数说明：
+success	Function	否	接口调用成功的回调函数，返回内容详见返回参数说明。
+fail	Function	否	接口调用失败的回调函数
+complete	Function	否	接口调用结束的回调函数（调用成功、失败都会执行）
+
+判断是否吧授权 逻辑代码
+开发者可以调用 wx.openSetting 打开设置界面，引导用户开启授权。
+// 如果没有写文件授权，弹窗提示用户 是否进行权限修改
+  resetAuth () {
+    wx.showModal({
+      title: '提示',
+      content: '你未授权小程序保存图片功能，是否现在进行授权？',
+      success (res) {
+        if (res.confirm) {
+          wx.openSetting()
+        } else if (res.cancel) {
+          console.log('用户点击取消')
+        }
+      }
+    })
+
+wx.showShareMenu 作用
+通常开发者希望转发出去的小程序被二次打开的时候能够获取到一些信息，例如群的标识。
+现在通过调用 wx.showShareMenu 并且设置 withShareTicket 为 true ，当用户将小程序转发到任一群聊之后，
+此转发卡片在群聊中被其他用户打开时，可以在 App.onLaunch 或 App.onShow 获取到一个 shareTicket。
+通过调用 wx.getShareInfo() 接口传入此 shareTicket 可以获取到转发信息。
+只有转发到群聊中打开才可以获取到 shareTickets 返回值，单聊没有 shareTickets
+shareTicket 仅在当前小程序生命周期内有效
+由于策略变动，小程序群相关能力进行调整，开发者可先使用 wx.getShareInfo 接口中的群ID进行功能开发。
+
+
+wx.getStorageSync   获取存储信息 
+
+wx.setStorage 异步保存
+ wx.setStorageSync同步保存
+
+ wx.getStorage 异步获取
+ wx.getStorageSync同步获取

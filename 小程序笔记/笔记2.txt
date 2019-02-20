@@ -1,0 +1,42 @@
+小程序执行生命周期 顺心
+onLoad => onShow => onReady
+
+用this.setData 注意this的指向问题
+ setTimeout(function () {
+      animation.translateY(0).step()
+      this.setData({
+        animationData: animation.export()
+      })
+    }, 200)
+会出现 this.setData is not a function 的报错，原因是此时的this对象指的是setTimeout  里面的匿名函数对象 ， 但是在这种情况下还是想动态渲染视图，就需要把当前的this的状态保存起来，然后在 setTimeout  里面的匿名函数对象内调用
+解决办法
+方法1 
+    setTimeout(function () {
+      animation.translateY(0).step()
+      this.setData({
+        animationData: animation.export()
+      })
+    }.bind(this), 200)
+方法2
+    var that= this;
+    setTimeout(function () {
+      that.setData({
+        open: 111
+      },1000)
+    })
+
+this.setData() 作用 ： 想当于在data里面新建了个变量，而不用再data里面写这个变量，
+然后直接可以就在html页面 用这个变量（虽然 data里面没有这个变量） 
+this.setData改变了view的style属性，并且会同步改变视图
+
+轮播图组件 
+<swiper vertical="true"></swiper>  可以让轮播图变成竖 直方向 滑动  
+但是注意 <swiper vertical="false"></swiper>  并没有让方向变成水平，需要这么写
+<swiper vertical="{{false}}"></swiper>  
+原因是 “false”会变转化成boolean值 是 true  ，而不是自己想的false  
+<swiper vertical="{{true/或者任何其他字符串}}"></swiper>   最终都被转化成 了true  
+
+wx:if="{{}}" 控制标签元素的显示和隐藏
+
+stylus 把 stylus代码转换成css代码
+stylus --compress < test.styl > test.css

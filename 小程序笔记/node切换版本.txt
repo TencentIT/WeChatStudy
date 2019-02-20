@@ -1,0 +1,17 @@
+Node切换版本
+
+列出所有版本：
+
+nvm ls-remote
+
+安装指定版本（如nvm install v4.4.7）：
+
+nvm install <version>
+
+使用指定版本（修改PATH）：
+
+nvm use <version>
+
+查看当前使用版本：
+
+nvm ls
